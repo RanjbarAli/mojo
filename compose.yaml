@@ -1,0 +1,41 @@
+name: mojo-wordpress
+services:
+  db:
+    image: mariadb:10.11
+    env_file: .mojo-local/credentials.env
+    environment:
+      MYSQL_DATABASE: mojo
+      MYSQL_USER: mojo
+    volumes:
+      - database:/var/lib/mysql
+      - ./i9555339_sdcg1.sql:/docker-entrypoint-initdb.d/01-backup.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 5s
+      retries: 100
+  wordpress:
+    image: wordpress:php8.3-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8094:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: mojo
+      WORDPRESS_DB_USER: mojo
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?use --env-file .mojo-local/credentials.env}
+      WORDPRESS_TABLE_PREFIX: r8go_
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'http://localhost:8094');
+        define('WP_SITEURL', WP_HOME);
+        define('DISABLE_WP_CRON', true);
+        define('WP_ENVIRONMENT_TYPE', 'local');
+    volumes:
+      - wordpress:/var/www/html
+      - ./theme/mojo:/var/www/html/wp-content/themes/mojo:ro
+      - ./.mojo-local/uploads:/var/www/html/wp-content/uploads
+volumes:
+  database:
+  wordpress:

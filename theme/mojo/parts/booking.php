@@ -1,0 +1,171 @@
+<section class="phead">
+    <div class="phead__img"><?php if ( is_page() && has_post_thumbnail() ) { the_post_thumbnail( 'full', array( 'fetchpriority' => 'high' ) ); } else { ?><img src="<?php echo esc_url( mojo_media_url( mojo_field( 'booking', 'image_assets_img_jump_sky_webp' ) ) ); ?>" alt=""><?php } ?></div>
+    <div class="container phead__in">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="<?php echo esc_url( mojo_url( 'home' ) ); ?>">Home</a><i data-lucide="chevron-right"></i><span>Booking</span></nav>
+      <h1 class="h1"><?php echo esc_html( mojo_field( 'booking', 'book_a_lesson' ) ); ?></h1>
+      <p class="lead"><?php echo esc_html( is_page() && has_excerpt() ? get_the_excerpt() : mojo_field( 'booking', 'introduction' ) ); ?></p>
+    </div>
+  </section>
+
+  <section class="section" id="wizardTop">
+    <div class="container wizard">
+      <form id="bookForm" class="wz" novalidate>
+        <div class="wz__meta"><span class="wz__count" id="wzCount">Step 1 of 4</span><b class="wz__name" id="wzName">Program</b></div>
+        <div class="steps" role="list">
+          <div class="steps__item" role="listitem"><div class="steps__bar"><i></i></div><span><span class="n">1</span><span class="lbl">Program</span></span></div>
+          <div class="steps__item" role="listitem"><div class="steps__bar"><i></i></div><span><span class="n">2</span><span class="lbl">Date & time</span></span></div>
+          <div class="steps__item" role="listitem"><div class="steps__bar"><i></i></div><span><span class="n">3</span><span class="lbl">Rider</span></span></div>
+          <div class="steps__item" role="listitem"><div class="steps__bar"><i></i></div><span><span class="n">4</span><span class="lbl">Confirm</span></span></div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="wstep is-active" data-step="0">
+          <div class="wstep__head"><h2 class="wstep__title">Choose your program</h2><p>Pick a discipline, lesson type and how many riders.</p></div>
+          <div class="field">
+            <span class="label">Program</span>
+            <div class="rcards rcards--2" id="progChoices"></div>
+          </div>
+          <div class="field">
+            <span class="label">Lesson type</span>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="ltype" value="Private" checked><span><i data-lucide="user-round"></i>Private</span></label>
+              <label class="choice"><input type="radio" name="ltype" value="Semi-private"><span><i data-lucide="users"></i>Semi-private</span></label>
+              <label class="choice"><input type="radio" name="ltype" value="Group"><span><i data-lucide="users"></i>Group</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Riders</span>
+            <div class="flex wrap center gap-2">
+              <div class="stepper" data-stepper data-min="1" data-max="6">
+                <button type="button" aria-label="Fewer riders"><i data-lucide="minus"></i></button><output>1</output>
+                <button type="button" aria-label="More riders"><i data-lucide="plus"></i></button><input type="hidden" name="riders" value="1">
+              </div>
+              <span class="hint">Up to 6 per booking</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="wstep" data-step="1">
+          <div class="wstep__head"><h2 class="wstep__title">Pick a date & time</h2><p><?php echo esc_html( mojo_schedule_label() ); ?></p></div>
+          <div class="wstep__cols">
+          <div class="field">
+            <span class="label">Date</span>
+            <div class="cal" id="cal">
+              <div class="cal__head">
+                <button type="button" class="icon-btn" id="calPrev" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+                <div class="cal__title"><span></span></div>
+                <button type="button" class="icon-btn" id="calNext" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+              </div>
+              <div class="cal__dow"><span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div>
+              <div class="cal__grid"></div>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Available times</span>
+            <div class="slots" id="slots"></div>
+            <div class="legend mt-1"><span><i style="background:var(--orange)"></i>Selected</span><span><i style="background:#B7C6CB"></i>Unavailable</span></div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="wstep" data-step="2">
+          <div class="wstep__head"><h2 class="wstep__title">Rider details</h2><p>So your coach can match the right horse and get in touch.</p></div>
+          <div class="form__row form__row--2">
+            <div class="field">
+              <label class="label" for="bName">Full name</label>
+              <div class="control"><i data-lucide="user" class="lead-ico"></i><input class="input" id="bName" name="fullname" autocomplete="name" placeholder="Rider's name" data-rules="required|min:3" data-letters><span class="state-ico"></span></div>
+            </div>
+            <div class="field">
+              <label class="label" for="bEmail">Email</label>
+              <div class="control"><i data-lucide="mail" class="lead-ico"></i><input class="input" id="bEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" data-rules="required|email"><span class="state-ico"></span></div>
+            </div>
+          </div>
+          <div class="form__row form__row--2">
+            <div class="field">
+              <label class="label" for="bPhone">Phone</label>
+              <div class="control phone" data-phone data-default="OM"><input class="input" id="bPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" data-rules="required|phone"><span class="state-ico"></span></div>
+            </div>
+            <div class="field">
+              <label class="label" for="bDob">Date of birth</label>
+              <div class="control"><i data-lucide="cake" class="lead-ico"></i><input class="input" id="bDob" name="dob" inputmode="numeric" data-mask="##/##/####" placeholder="DD/MM/YYYY" data-rules="required|date"><span class="state-ico"></span></div>
+            </div>
+          </div>
+          <div class="form__row form__row--2">
+            <div class="field">
+              <label class="label" id="nationality-lbl">Nationality</label>
+              <select id="nationality" name="nationality" data-cselect data-search data-placeholder="Select nationality" data-icon="flag" data-rules="select"></select>
+            </div>
+            <div class="field">
+              <label class="label" for="bMember">Member code <span class="opt">Optional</span></label>
+              <div class="control"><i data-lucide="ticket" class="lead-ico"></i><input class="input" id="bMember" name="member" data-mask="MJ-####" placeholder="MJ-0000" autocomplete="off"><span class="state-ico"></span></div>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Riding level</span>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="rlevel" value="Beginner" data-rules="required"><span><i data-lucide="sprout"></i>Beginner</span></label>
+              <label class="choice"><input type="radio" name="rlevel" value="Intermediate" data-rules="required"><span><i data-lucide="target"></i>Intermediate</span></label>
+              <label class="choice"><input type="radio" name="rlevel" value="Advanced" data-rules="required"><span><i data-lucide="trophy"></i>Advanced</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="bNotes">Health or other notes <span class="counter"></span></label>
+            <div class="control control--area"><textarea class="input" id="bNotes" name="notes" maxlength="300" placeholder="Allergies, injuries, goals…"></textarea></div>
+          </div>
+          <label class="switch"><input type="checkbox" name="reminders" checked><span class="switch__track"></span><span>WhatsApp reminder the day before</span></label>
+          <label class="check"><input type="checkbox" name="terms" data-rules="checked"><span class="check__box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><span>I accept the <a href="#">safety rules</a> and <a href="#">booking terms</a>.</span></label>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="wstep" data-step="3">
+          <div class="wstep__head"><h2 class="wstep__title">Review & confirm</h2><p>Check the details below — you can edit any part.</p></div>
+          <div class="rv">
+            <div class="rv__block">
+              <div class="rv__head"><b><i data-lucide="layout-grid"></i>Lesson</b><button type="button" class="rv__edit" data-goto="0"><i data-lucide="pen-line"></i>Edit</button></div>
+              <div class="summary">
+                <div class="summary__row"><span>Program</span><b data-s="sProgram"></b></div>
+                <div class="summary__row"><span>Lesson type</span><b data-s="sType"></b></div>
+                <div class="summary__row"><span>Riders</span><b data-s="sRiders"></b></div>
+              </div>
+            </div>
+            <div class="rv__block">
+              <div class="rv__head"><b><i data-lucide="calendar-check"></i>When</b><button type="button" class="rv__edit" data-goto="1"><i data-lucide="pen-line"></i>Edit</button></div>
+              <div class="summary">
+                <div class="summary__row"><span>Date</span><b data-s="sDate"></b></div>
+                <div class="summary__row"><span>Time</span><b data-s="sTime"></b></div>
+              </div>
+            </div>
+            <div class="rv__block">
+              <div class="rv__head"><b><i data-lucide="user"></i>Rider</b><button type="button" class="rv__edit" data-goto="2"><i data-lucide="pen-line"></i>Edit</button></div>
+              <div class="summary">
+                <div class="summary__row"><span>Name</span><b data-s="sName"></b></div>
+                <div class="summary__row"><span>Level</span><b data-s="sLevel"></b></div>
+                <div class="summary__row"><span>Phone</span><b data-s="sPhone"></b></div>
+                <div class="summary__row"><span>Email</span><b data-s="sEmail"></b></div>
+              </div>
+            </div>
+            <div class="rv__note"><i data-lucide="shield-check"></i><span>Pay at the centre on the day. Free cancellation up to 24 hours before your lesson.</span></div>
+          </div>
+        </div>
+
+        <div class="wnav">
+          <button type="button" class="btn btn--ghost" id="backBtn"><span class="btn__icon"><i data-lucide="arrow-left"></i></span><span class="btn__label">Back</span></button>
+          <button type="button" class="btn" id="nextBtn" data-loading="Confirming" data-success="Booked"><span class="btn__label">Continue</span><span class="btn__icon"><i data-lucide="arrow-right"></i></span></button>
+        </div>
+      </form>
+
+      <aside class="aside-box">
+        <div class="flex between center"><h3 class="h3"><?php echo esc_html( mojo_field( 'booking', 'your_booking' ) ); ?></h3><span class="chip chip--teal"><i data-lucide="hourglass"></i><?php echo esc_html( mojo_field( 'booking', 'live' ) ); ?></span></div>
+        <div class="summary">
+          <div class="summary__row"><span><?php echo esc_html( mojo_field( 'booking', 'program' ) ); ?></span><b data-s="sProgram"></b></div>
+          <div class="summary__row"><span><?php echo esc_html( mojo_field( 'booking', 'type' ) ); ?></span><b data-s="sType"></b></div>
+          <div class="summary__row"><span><?php echo esc_html( mojo_field( 'booking', 'riders' ) ); ?></span><b data-s="sRiders"></b></div>
+          <div class="summary__row"><span><?php echo esc_html( mojo_field( 'booking', 'date' ) ); ?></span><b data-s="sDate"></b></div>
+          <div class="summary__row"><span><?php echo esc_html( mojo_field( 'booking', 'time' ) ); ?></span><b data-s="sTime"></b></div>
+        </div>
+        <a class="btn btn--ghost btn--block" href="<?php echo esc_url( mojo_field( 'contact', 'whatsapp' ) ); ?>" target="_blank" rel="noopener"><span class="btn__icon"><i data-lucide="message-circle"></i></span><span class="btn__label"><?php echo esc_html( mojo_field( 'booking', 'questions_whatsapp_us' ) ); ?></span></a>
+      </aside>
+    </div>
+  </section>

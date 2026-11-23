@@ -1,0 +1,499 @@
+{
+  "contact": {
+    "phone": "+968 9776 0221",
+    "whatsapp": "https://wa.me/96897760221",
+    "email": "info@mojoequestrian.com",
+    "address": "Rumays, Barka, Oman",
+    "instagram": "https://www.instagram.com/mojo_equestrian_centre/",
+    "facebook": "https://www.facebook.com/share/TfaRGUmuyfY1tM6r/",
+    "open": "08:00",
+    "close": "21:00",
+    "closedDays": "5",
+    "slots": "08:00,09:00,10:00,11:00,16:00,17:00,18:00,19:00,20:00",
+    "map": "https://maps.google.com/?q=Mojo+Equestrian+Barka+Oman",
+    "mapEmbed": "https://www.google.com/maps?q=Mojo%20Equestrian%20Center%20Barka%20Oman&output=embed"
+  },
+  "programs": [
+    {
+      "id": "riding-school",
+      "title": "Riding School",
+      "cat": "riding",
+      "icon": "graduation-cap",
+      "img": "assets/img/riding-school.webp",
+      "duration": "45 min",
+      "level": "All levels",
+      "short": "Structured lessons from first steps to advanced competition.",
+      "body": "A structured path for every rider — beginners build balance, safety and confidence, while experienced riders refine position, aids and feel. Lessons are matched to your level and to a horse that suits you.",
+      "points": "Private & group lessons\nMatched horse for your level\nKids & adults",
+      "showInDisciplines": "yes",
+      "bookable": "yes"
+    },
+    {
+      "id": "show-jumping",
+      "title": "Show Jumping",
+      "cat": "training",
+      "icon": "trophy",
+      "img": "assets/img/masters-2.webp",
+      "duration": "45 min",
+      "level": "Intermediate+",
+      "short": "Precision, rhythm and courage over fences.",
+      "body": "Gridwork, course riding and competition preparation, coached by trainers with international show experience. Build the precision, agility and connection with your horse that clear rounds are made of.",
+      "points": "Gridwork & course riding\nCompetition preparation\nVideo feedback",
+      "showInDisciplines": "yes",
+      "bookable": "yes"
+    },
+    {
+      "id": "dressage",
+      "title": "Dressage",
+      "cat": "training",
+      "icon": "sparkles",
+      "img": "assets/img/hero.webp",
+      "duration": "45 min",
+      "level": "All levels",
+      "short": "Harmony, balance and precise communication.",
+      "body": "Develop suppleness, rhythm and a quiet, effective seat. From basic school figures to lateral work, dressage lessons sharpen communication between horse and rider.",
+      "points": "Flatwork foundations\nLateral work\nTest riding",
+      "showInDisciplines": "yes",
+      "bookable": "yes"
+    },
+    {
+      "id": "theory",
+      "title": "Theoretical Classes",
+      "cat": "riding",
+      "icon": "book-open",
+      "img": "assets/img/theory.webp",
+      "duration": "15 min",
+      "level": "All levels",
+      "short": "Horsemanship knowledge that supports every ride.",
+      "body": "Short, focused classes on horse care, behaviour, anatomy, tack and riding theory — complementing practical training with a deeper understanding of horsemanship.",
+      "points": "Horse care & anatomy\nTack & equipment\nRiding theory",
+      "showInDisciplines": "yes",
+      "bookable": "yes"
+    },
+    {
+      "id": "young-horses",
+      "title": "Young Horse Training",
+      "cat": "training",
+      "icon": "sprout",
+      "img": "assets/img/stall.webp",
+      "duration": "Programme",
+      "level": "Horses",
+      "short": "A calm, solid foundation for future athletes.",
+      "body": "Groundwork, starting under saddle and responsiveness training for young horses — patient, consistent work that builds a confident and willing partner.",
+      "points": "Groundwork\nStarting under saddle\nProgress reports",
+      "showInDisciplines": "yes",
+      "bookable": "no"
+    },
+    {
+      "id": "leasing",
+      "title": "Horse Leasing",
+      "cat": "riding",
+      "icon": "key-round",
+      "img": "assets/img/bond.webp",
+      "duration": "Monthly",
+      "level": "Intermediate+",
+      "short": "Ride a talented horse without the full commitment.",
+      "body": "Lease one of our well-schooled horses for regular riding and training — a great step between lessons and ownership.",
+      "points": "Full or part lease\nIncludes care & stabling\nCoach support",
+      "showInDisciplines": "yes",
+      "bookable": "yes"
+    },
+    {
+      "id": "events",
+      "title": "Events & Parties",
+      "cat": "leisure",
+      "icon": "party-popper",
+      "img": "assets/img/team.webp",
+      "duration": "On request",
+      "level": "Everyone",
+      "short": "Birthdays, corporate days and celebrations.",
+      "body": "A unique venue for birthdays, corporate gatherings and celebrations — with pony rides, arena demos and catering from our café.",
+      "points": "Pony rides\nArena demos\nCatering available",
+      "showInDisciplines": "yes",
+      "bookable": "no"
+    },
+    {
+      "id": "cafe",
+      "title": "Restaurant & Café",
+      "cat": "leisure",
+      "icon": "coffee",
+      "img": "assets/img/cafe.webp",
+      "duration": "Daily",
+      "level": "Everyone",
+      "short": "Coffee, snacks and arena views.",
+      "body": "Relax with coffee, fresh drinks and snacks — indoor and outdoor seating with a view over the arena. No riding required.",
+      "points": "Indoor & outdoor seating\nArena view\nFamily friendly",
+      "showInDisciplines": "yes",
+      "bookable": "no"
+    }
+  ],
+  "gallery": [
+    {
+      "src": "assets/img/night-jump.webp",
+      "tag": "Show jumping",
+      "ar": "4/5.4"
+    },
+    {
+      "src": "assets/img/masters-1.webp",
+      "tag": "Oman Masters",
+      "ar": "4/3"
+    },
+    {
+      "src": "assets/img/young-rider.webp",
+      "tag": "Young riders",
+      "ar": "4/5"
+    },
+    {
+      "src": "assets/img/stable-lamp.webp",
+      "tag": "Stables",
+      "ar": "4/5.2"
+    },
+    {
+      "src": "assets/img/masters-3.webp",
+      "tag": "Competition",
+      "ar": "4/3"
+    },
+    {
+      "src": "assets/img/stall.webp",
+      "tag": "Facilities",
+      "ar": "4/5"
+    },
+    {
+      "src": "assets/img/arena-jump.webp",
+      "tag": "Training",
+      "ar": "4/5.2"
+    },
+    {
+      "src": "assets/img/media.webp",
+      "tag": "Media day",
+      "ar": "4/3"
+    },
+    {
+      "src": "assets/img/night-ride.webp",
+      "tag": "Evening rides",
+      "ar": "4/5.4"
+    },
+    {
+      "src": "assets/img/cafe.webp",
+      "tag": "Café",
+      "ar": "4/3"
+    },
+    {
+      "src": "assets/img/team.webp",
+      "tag": "Team",
+      "ar": "4/3"
+    },
+    {
+      "src": "assets/img/masters-2.webp",
+      "tag": "CSI 1*",
+      "ar": "4/3.2"
+    }
+  ],
+  "sponsors": [
+    {
+      "src": "assets/img/sponsors/oman-masters.png",
+      "name": "Oman Masters"
+    },
+    {
+      "src": "assets/img/sponsors/hashimani.png",
+      "name": "Hashimani Furniture"
+    },
+    {
+      "src": "assets/img/sponsors/best-solution.png",
+      "name": "Best Solution"
+    },
+    {
+      "src": "assets/img/sponsors/zahr-el-laymoun.png",
+      "name": "Zahr El-Laymoun"
+    }
+  ],
+  "achievements": [
+    {
+      "year": "2021 – 22",
+      "title": "Oman Masters — first season",
+      "text": "Hosted the first season of Oman Masters with more than 100 national riders.",
+      "img": "assets/img/masters-3.webp",
+      "res": "Host · 100+ riders",
+      "icon": "flag",
+      "tone": "teal"
+    },
+    {
+      "year": "2022 – 23",
+      "title": "First international season",
+      "text": "The first private stable in Oman to host an international competition season — and the first international female competition in the country.",
+      "img": "assets/img/masters-2.webp",
+      "res": "First in Oman",
+      "icon": "trophy",
+      "tone": "azure"
+    },
+    {
+      "year": "2023",
+      "title": "Gold & silver",
+      "text": "Gold and silver medals in the female international competition, Oman Masters CSI 1*.",
+      "img": "assets/img/sponsors-day.webp",
+      "res": "Gold & Silver",
+      "icon": "medal",
+      "tone": "orange"
+    }
+  ],
+  "home": {
+    "image_assets_img_masters_2_webp": "assets/img/masters-2.webp",
+    "image_assets_img_night_ride_webp": "assets/img/night-ride.webp",
+    "image_assets_img_stable_lamp_webp": "assets/img/stable-lamp.webp",
+    "image_assets_img_young_rider_webp": "assets/img/young-rider.webp",
+    "image_assets_img_coach_webp": "assets/img/coach.webp",
+    "image_assets_img_signature_png": "assets/img/signature.png",
+    "image_assets_img_pony_webp": "assets/img/pony.webp",
+    "introduction": "Show jumping, dressage and riding school for every level.",
+    "horses_count": "20",
+    "national_riders_hosted_count": "100",
+    "milestone_seasons_count": "3",
+    "days_a_week_count": "6",
+    "open": "Open",
+    "barka_oman": "Barka · Oman",
+    "ride_with": "Ride with",
+    "mojo": "Mojo",
+    "book_a_lesson": "Book a lesson",
+    "explore_programs": "Explore programs",
+    "home_of_oman_masters_csi_1": "Home of Oman Masters · CSI 1*",
+    "scroll": "Scroll",
+    "programs": "Programs",
+    "choose_your_discipline": "Choose your discipline",
+    "all_programs": "All programs",
+    "about_us": "About us",
+    "built_around_the_horse": "Built around the horse",
+    "floodlit_arenas_airy_stables_and_coaches_with_international_show_": "Floodlit arenas, airy stables and coaches with international show experience — plus a café overlooking it all.",
+    "show_jumping_dressage_for_every_level": "Show jumping & dressage for every level",
+    "safe_well_schooled_horses_for_beginners": "Safe, well-schooled horses for beginners",
+    "young_horse_starting_horse_leasing": "Young horse starting & horse leasing",
+    "horses": "Horses",
+    "national_riders_hosted": "National riders hosted",
+    "milestone_seasons": "Milestone seasons",
+    "7": "/7",
+    "days_a_week": "Days a week",
+    "our_story": "Our story",
+    "visit_us": "Visit us",
+    "achievements": "Achievements",
+    "our_milestones": "Our milestones",
+    "see_events": "See events",
+    "pos": "Pos",
+    "season": "Season",
+    "milestone": "Milestone",
+    "result": "Result",
+    "highlights": "Highlights",
+    "moments_from_the_arena": "Moments from the arena",
+    "instagram": "Instagram",
+    "key_staff": "Key staff",
+    "coach_mohammed_gouda": "Coach Mohammed Gouda",
+    "general_manager": "General Manager",
+    "training_manager": "Training Manager",
+    "leading_mojo_s_coaching_team_and_training_programmes_from_first_l": "Leading Mojo's coaching team and training programmes — from first lessons to international competition.",
+    "train_with_us": "Train with us",
+    "message": "Message",
+    "faq": "FAQ",
+    "before_your_first_ride": "Before your first ride",
+    "still_curious_ask_us": "Still curious? Ask us",
+    "join_today": "Join today",
+    "book_a_free_demo": "Book a free demo",
+    "1": "1",
+    "tell_us_about_you": "Tell us about you",
+    "takes_under_a_minute": "Takes under a minute.",
+    "2": "2",
+    "we_call_you_back": "We call you back",
+    "within_one_working_day": "Within one working day.",
+    "3": "3",
+    "your_first_ride": "Your first ride",
+    "helmet_gear_provided": "Helmet & gear provided.",
+    "bookingTileLink": "Book a first lesson",
+    "stableTileLink": "Meet the stable",
+    "promoTitle": "New to riding?",
+    "promoCopy": "Start on a calm horse with a patient coach.",
+    "horseLabel": "Well-schooled horses",
+    "horseCopy": "Matched to your level and goals."
+  },
+  "blog": {
+    "image_assets_img_night_ride_webp": "assets/img/night-ride.webp",
+    "introduction": "Riding tips, horse care and news from the arena.",
+    "the_mojo_journal": "The Mojo journal"
+  },
+  "services": {
+    "image_assets_img_masters_2_webp": "assets/img/masters-2.webp",
+    "introduction": "For riders who want to refine their skills — and horses that deserve the best start.",
+    "programs": "Programs",
+    "all": "All",
+    "riding": "Riding",
+    "training": "Training",
+    "leisure": "Leisure",
+    "no_programs_match_your_search": "No programs match your search",
+    "clear_filters": "Clear filters",
+    "how_it_works": "How it works",
+    "three_easy_steps": "Three easy steps",
+    "1_choose": "1 · Choose",
+    "pick_a_program_or_ask_us_which_fits_your_level": "Pick a program — or ask us which fits your level.",
+    "2_book": "2 · Book",
+    "select_a_date_and_time_that_suits_you_saturday_to_thursday": "Select a date and time that suits you, Saturday to Thursday.",
+    "3_ride": "3 · Ride",
+    "meet_your_coach_and_horse_helmets_and_gear_provided": "Meet your coach and horse — helmets and gear provided.",
+    "book_a_lesson": "Book a lesson",
+    "ask_a_coach": "Ask a coach"
+  },
+  "about": {
+    "image_assets_img_sponsors_day_webp": "assets/img/sponsors-day.webp",
+    "image_assets_img_arena_jump_webp": "assets/img/arena-jump.webp",
+    "image_assets_img_stable_lamp_webp": "assets/img/stable-lamp.webp",
+    "image_assets_img_young_rider_webp": "assets/img/young-rider.webp",
+    "image_assets_img_care_webp": "assets/img/care.webp",
+    "image_assets_img_masters_3_webp": "assets/img/masters-3.webp",
+    "image_assets_img_stall_webp": "assets/img/stall.webp",
+    "image_assets_img_cafe_webp": "assets/img/cafe.webp",
+    "image_assets_img_theory_webp": "assets/img/theory.webp",
+    "image_assets_img_coach_webp": "assets/img/coach.webp",
+    "image_assets_img_signature_png": "assets/img/signature.png",
+    "introduction": "Built around horse welfare, great coaching and a love of the sport.",
+    "about_mojo": "About Mojo",
+    "our_story": "Our story",
+    "riding_done_properly": "Riding, done properly",
+    "mojo_began_with_a_simple_idea_give_riders_in_oman_a_place_to_lear": "Mojo began with a simple idea: give riders in Oman a place to learn properly — on happy horses, with coaches who've competed at the highest level.",
+    "today_we_teach_show_jumping_dressage_and_riding_school_lessons_fo": "Today we teach show jumping, dressage and riding school lessons for every level, start young horses, run a leasing programme and host national and international competitions. Between rides, our café is the place to watch the action.",
+    "20": "20+",
+    "horses": "Horses",
+    "csi_1": "CSI 1*",
+    "international_venue": "International venue",
+    "6_7": "6/7",
+    "days_a_week": "Days a week",
+    "what_makes_us_different": "What makes us different",
+    "four_things_we_never_compromise": "Four things we never compromise",
+    "01": "01",
+    "horse_first": "Horse first",
+    "welfare_routine_and_fair_training_in_every_decision": "Welfare, routine and fair training in every decision.",
+    "02": "02",
+    "safety": "Safety",
+    "certified_equipment_and_calm_horses_matched_to_each_rider": "Certified equipment and calm horses matched to each rider.",
+    "03": "03",
+    "expert_coaching": "Expert coaching",
+    "trainers_with_national_and_international_show_experience": "Trainers with national and international show experience.",
+    "04": "04",
+    "community": "Community",
+    "families_riders_and_friends_welcome_in_the_arena_and_caf": "Families, riders and friends — welcome in the arena and café.",
+    "facilities": "Facilities",
+    "inside_mojo": "Inside Mojo",
+    "plan_a_visit": "Plan a visit",
+    "competition_arena": "Competition arena",
+    "floodlit_international_standard_footing": "Floodlit, international-standard footing",
+    "stables": "Stables",
+    "spacious_ventilated_daily_turnout": "Spacious, ventilated, daily turnout",
+    "restaurant_caf": "Restaurant & café",
+    "indoor_outdoor_seating_by_the_arena": "Indoor & outdoor seating by the arena",
+    "classroom": "Classroom",
+    "theory_horsemanship_sessions": "Theory & horsemanship sessions",
+    "milestones": "Milestones",
+    "our_journey_so_far": "Our journey so far",
+    "leadership": "Leadership",
+    "mohammed_gouda": "Mohammed Gouda",
+    "general_manager": "General Manager",
+    "training_manager": "Training Manager",
+    "oversees_mojo_s_coaching_team_horse_training_and_competition_prog": "Oversees Mojo's coaching team, horse training and competition programme — from first lessons to international shows.",
+    "train_with_us": "Train with us",
+    "get_in_touch": "Get in touch"
+  },
+  "booking": {
+    "image_assets_img_jump_sky_webp": "assets/img/jump-sky.webp",
+    "introduction": "Four quick steps. Pay at the centre on the day.",
+    "book_a_lesson": "Book a lesson",
+    "your_booking": "Your booking",
+    "live": "Live",
+    "program": "Program",
+    "type": "Type",
+    "riders": "Riders",
+    "date": "Date",
+    "time": "Time",
+    "questions_whatsapp_us": "Questions? WhatsApp us"
+  },
+  "contact-page": {
+    "image_assets_img_cafe_webp": "assets/img/cafe.webp",
+    "introduction": "Lessons, leasing, events or just a coffee — reach out any way you like.",
+    "get_in_touch": "Get in touch",
+    "call_us": "Call us",
+    "whatsapp": "WhatsApp",
+    "chat_with_mohammed": "Chat with Mohammed",
+    "email": "Email",
+    "visit": "Visit",
+    "opening_hours": "Opening hours"
+  },
+  "events": {
+    "image_assets_img_team_webp": "assets/img/team.webp",
+    "introduction": "Birthdays, team days and private experiences — at the home of Oman Masters.",
+    "events": "Events",
+    "host_with_us": "Host with us",
+    "event_packages": "Event packages",
+    "choose_package": "Choose package",
+    "competitions": "Competitions",
+    "past_events": "Past events",
+    "season": "Season",
+    "plan_your_event": "Plan your event",
+    "send_an_inquiry": "Send an inquiry",
+    "share_a_few_details_and_we_ll_build_a_plan_and_quote_for_you": "Share a few details and we'll build a plan and quote for you.",
+    "whatsapp": "WhatsApp",
+    "email": "Email"
+  },
+  "footer": {
+    "description": "Show jumping, dressage and riding school in Barka, Oman.",
+    "brand": "Mojo Equestrian Center · Barka, Sultanate of Oman",
+    "credit": "Astra",
+    "creditUrl": "https://aiastra.io",
+    "cta": "Ready to ride?",
+    "image_logo": "assets/img/logo-light.png"
+  },
+  "past-events": [
+    {
+      "title": "Oman Masters — female international",
+      "text": "Gold and silver medals for our riders in the female international competition.",
+      "img": "assets/img/masters-1.webp",
+      "alt": "Oman Masters show jumping",
+      "tag": "CSI 1*",
+      "year": "2023",
+      "icon": "medal"
+    },
+    {
+      "title": "First international season",
+      "text": "The first private stable in Oman to host an international competition season.",
+      "img": "assets/img/masters-2.webp",
+      "alt": "International show jumping at Mojo",
+      "tag": "International",
+      "year": "22–23",
+      "icon": "flag"
+    },
+    {
+      "title": "Oman Masters — first season",
+      "text": "Our first national season, bringing together more than 100 riders.",
+      "img": "assets/img/media.webp",
+      "alt": "Media coverage at Oman Masters",
+      "tag": "100+ riders",
+      "year": "21–22",
+      "icon": "users"
+    }
+  ],
+  "packages": [
+    {
+      "id": "birthday",
+      "title": "Birthday party",
+      "tag": "Kids favourite",
+      "icon": "cake",
+      "points": "Pony rides & horse meet-and-greet\nPrivate seating area\nCafé catering"
+    },
+    {
+      "id": "corporate",
+      "title": "Corporate day",
+      "tag": "Teams",
+      "icon": "briefcase",
+      "points": "Arena demo & intro lesson\nMeeting space & lunch\nTeam photos with horses"
+    },
+    {
+      "id": "private",
+      "title": "Private experience",
+      "tag": "Couples & families",
+      "icon": "camera",
+      "points": "Sunset ride or photoshoot\nDedicated coach\nCoffee & dessert at the café"
+    }
+  ]
+}

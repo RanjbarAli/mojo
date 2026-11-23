@@ -6,7 +6,7 @@
 (() => {
   const D = window.MOJO, U = window.UI, { $, $$, ico, animate, stagger } = U;
   const page = document.body.dataset.page;
-  const hasGSAP = () => window.gsap && window.ScrollTrigger && !U.reduced;
+  const useScrollEffects = () => window.gsap && window.ScrollTrigger && !U.reduced && !U.mobile;
   const desktop = "(min-width: 992px)";
 
   /* ======================= Availability (shared by hero & booking) ======================= */
@@ -58,7 +58,7 @@
     },
     pageHeaderParallax() {
       const img = $(".phead__img img");
-      if (img && hasGSAP()) {
+      if (img && useScrollEffects()) {
         gsap.fromTo(img, { scale: 1.25 }, { scale: 1, duration: 2, ease: "expo.out" });
         gsap.to(img, { yPercent: 12, ease: "none", scrollTrigger: { trigger: ".phead", start: "top top", end: "bottom top", scrub: true } });
         gsap.to(".phead__in", { y: -50, opacity: 0.3, ease: "none", scrollTrigger: { trigger: ".phead", start: "top top", end: "bottom top", scrub: true } });
@@ -71,7 +71,7 @@
   // Results board: rows flip in like a split-flap display, seasons scramble then settle
   function initBoard() {
     const board = $("#board");
-    if (!board || !hasGSAP()) return;
+    if (!board || !useScrollEffects()) return;
     const rows = $$(".brow", board);
     gsap.set(rows, { rotateX: -92, opacity: 0, transformPerspective: 900 });
     const scramble = (el) => {
@@ -247,7 +247,7 @@
         } catch { U.toast("You seem to be offline — please try again", "error"); }
       });
       home.digits();
-      if (!hasGSAP()) return;
+      if (!useScrollEffects()) return;
 
       // Hero: pinned scrub — full-screen photo shrinks into a rounded frame
       const mmh = gsap.matchMedia();
@@ -324,8 +324,8 @@
     },
 
     intro() {
+      if (U.mobile || U.reduced || !window.gsap) return;
       const words = U.splitWords($("#heroTitle"));
-      if (U.reduced || !window.gsap) return;
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
       tl.fromTo("#hcMedia img", { scale: 1.35 }, { scale: 1.18, duration: 2.6, ease: "power3.out" }, 0)
         .from("#hcMedia", { opacity: 0, duration: 1.2, ease: "power2.out" }, 0)
@@ -346,7 +346,7 @@
 
     // Page-wide choreography for the homepage
     motion() {
-      if (!hasGSAP()) return;
+      if (!useScrollEffects()) return;
       // Scroll progress bar
       const bar = document.createElement("span"); bar.className = "scrollbar"; document.body.appendChild(bar);
       gsap.to(bar, { scaleX: 1, ease: "none", scrollTrigger: { trigger: document.documentElement, start: "top top", end: "bottom bottom", scrub: 0.3 } });
@@ -395,7 +395,7 @@
       R.pageHeaderParallax();
       initLogos();
       const items = $$(".ab-tl__item");
-      if (!hasGSAP()) { items.forEach((i) => i.classList.add("is-on")); window.gsap && gsap.set("#abTlFill", { scaleX: 1, scaleY: 1 }); return; }
+      if (!useScrollEffects()) { items.forEach((i) => i.classList.add("is-on")); window.gsap && gsap.set("#abTlFill", { scaleX: 1, scaleY: 1 }); return; }
       // Story strip: each photo drifts at its own pace
       $$("#abStrip img").forEach((img, i) => gsap.fromTo(img, { yPercent: -4 - i * 3 }, { yPercent: 4 + i * 3, ease: "none", scrollTrigger: { trigger: "#abStrip", start: "top bottom", end: "bottom top", scrub: true } }));
       gsap.from("#abStrip figure", { clipPath: "inset(100% 0 0 0 round 20px)", duration: 1.2, ease: "expo.inOut", stagger: 0.12, scrollTrigger: { trigger: "#abStrip", start: "top 85%", once: true } });
@@ -469,7 +469,7 @@
           }, 700);
         } catch { U.toast("You seem to be offline — please try again", "error"); }
       });
-      if (hasGSAP()) $$(".eitem").forEach((e) => gsap.from(e, { opacity: 0, y: 30, duration: 0.7, ease: "power3.out", scrollTrigger: { trigger: e, start: "top 88%" } }));
+      if (useScrollEffects()) $$(".eitem").forEach((e) => gsap.from(e, { opacity: 0, y: 30, duration: 0.7, ease: "power3.out", scrollTrigger: { trigger: e, start: "top 88%" } }));
     },
   };
 

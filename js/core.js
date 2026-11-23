@@ -18,6 +18,7 @@
   const conn = navigator.connection || {};
   const lowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) ||
     (navigator.deviceMemory && navigator.deviceMemory <= 2) || conn.saveData === true;
+  const mobile = matchMedia("(pointer: coarse), (max-width: 767px)").matches;
   const reduced = prefersReduced || lowEnd;
   if (reduced) html.classList.add("reduce-motion");
 
@@ -219,13 +220,13 @@
     if (smoother) smoother.scrollTo(target, true, `top ${offset}px`);
     else {
       const top = typeof target === "number" ? target : target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      window.scrollTo({ top, behavior: reduced || mobile ? "auto" : "smooth" });
     }
   }
   function initScroll() {
     if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
     if (window.gsap && window.Flip) gsap.registerPlugin(Flip);
-    if (!reduced && window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
+    if (!mobile && !reduced && window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
       gsap.registerPlugin(ScrollSmoother);
       const wrapper = document.createElement("div");
       const content = document.createElement("div");
@@ -235,7 +236,7 @@
       wrapper.append(content);
       content.append(main, $(".footer"));
       document.body.classList.add("has-smoother");
-      smoother = ScrollSmoother.create({ wrapper, content, smooth: 1, smoothTouch: 0.15 });
+      smoother = ScrollSmoother.create({ wrapper, content, smooth: 1 });
     }
     // in-page anchors
     document.addEventListener("click", (e) => {
@@ -882,6 +883,7 @@
     return words;
   }
   function initSplit(root = document) {
+    if (mobile) return;
     const els = $$("[data-split], .section .h2, .phead .h1", root).filter((e) => !e.closest(".modal"));
     els.forEach((el) => {
       const words = splitWords(el);
@@ -899,13 +901,13 @@
     const els = $$("[data-reveal]", root);
     if (reduced || !window.ScrollTrigger) { els.forEach((e) => (e.style.opacity = 1)); return; }
     els.forEach((el) => {
-      const kids = el.dataset.reveal === "stagger" ? [...el.children] : null;
+      const kids = !mobile && el.dataset.reveal === "stagger" ? [...el.children] : null;
       if (kids) { el.style.opacity = 1; gsap.set(kids, { opacity: 0, y: 28 }); }
       ScrollTrigger.create({
         trigger: el, start: "top 86%", once: true,
         onEnter: () => kids
           ? gsap.to(kids, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.08 })
-          : gsap.fromTo(el, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1, ease: "expo.out", delay: +(el.dataset.delay || 0) }),
+          : gsap.fromTo(el, { opacity: 0, y: mobile ? 6 : 28 }, { opacity: 1, y: 0, duration: mobile ? 0.25 : 1, ease: "expo.out", delay: +(el.dataset.delay || 0) }),
       });
     });
   }
@@ -1034,7 +1036,7 @@
   }
 
   window.UI = {
-    $, $$, animate, stagger, spring, reduced, svg, ico, renderIcons, toast, modal, btnState, runButton, fakeRequest,
+    $, $$, animate, stagger, spring, reduced, mobile, svg, ico, renderIcons, toast, modal, btnState, runButton, fakeRequest,
     initForm, resetForm, splitWords, initAccordion, initTabs, initCounters, validateEl, showError, enhanceSelect, enhancePhone, initMasks, initReveal, openProgram, openStatus, omanNow,
     scrollToTarget, lockScroll, flag, moveInd,
   };

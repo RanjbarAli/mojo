@@ -43,6 +43,7 @@
         }
         previous = time;
         if (time - first < 450) { requestAnimationFrame(sample); return; }
+        const previousLevel = motionLevel;
         if (slow / frames > 0.25) {
           motionLevel = Math.max(0, motionLevel - 1);
           goodSamples = 0;
@@ -52,6 +53,7 @@
             goodSamples = 0;
           }
         } else goodSamples = 0;
+        if (motionLevel !== previousLevel) window.dispatchEvent(new Event("mojo:motionchange"));
       }
       requestAnimationFrame(sample);
     }, { passive: true });
@@ -934,23 +936,58 @@
   /* ---------- Reveal on view ---------- */
   function initReveal(root = document) {
     if (mobile) {
-      const targets = $$("[data-reveal], #heroTitle, #bento > .tile, .section .h2, .phead .h1", root)
+      const targets = $$([
+        "[data-reveal]", "#heroTitle", "[data-hero-in]", ".section .h2", ".phead .h1",
+        "#bento > .tile", "#collage figure", ".brow", ".g-item", ".acc__item",
+        "#abStrip figure", ".ab-team__img", ".ab-tl__item", "#demoForm",
+        ".svc__img", ".post__img", ".eitem__img",
+      ].join(","), root)
         .filter((el) => el.hasAttribute("data-reveal") || !el.parentElement.closest("[data-reveal]"));
-      if (reduced || !window.gsap || !window.IntersectionObserver) {
+      if (prefersReduced || conn.saveData || !window.gsap || !window.IntersectionObserver) {
         targets.forEach((el) => { el.style.opacity = 1; });
         return;
       }
+      // Rich phones get native-scroll parallax. Revert its transforms as soon as the budget falls.
+      let parallax;
+      function updateParallax() {
+        if (parallax) { parallax.revert(); parallax = null; }
+        if (motionLevel !== 2 || !window.ScrollTrigger) return;
+        parallax = gsap.context(() => {
+          $$("#hcMedia img, .phead__img img, .coach__img img", root).forEach((img) => {
+            gsap.fromTo(img, { scale: 1.14, yPercent: -3 }, {
+              scale: 1.09, yPercent: 3, ease: "none",
+              scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true },
+            });
+          });
+        });
+      }
+      updateParallax();
+      window.addEventListener("mojo:motionchange", updateParallax);
       const observer = new IntersectionObserver((entries) => {
         for (const { target, isIntersecting } of entries) {
           if (!isIntersecting) continue;
           observer.unobserve(target);
           target.style.opacity = 1;
-          if (!motionLevel) continue;
+          if (!motionLevel) {
+            gsap.fromTo(target, { y: 8 }, { y: 0, duration: 0.28, clearProps: "transform" });
+            continue;
+          }
           const rich = motionLevel === 2;
-          gsap.fromTo(target, { opacity: 0, y: rich ? 16 : 5 }, {
-            opacity: 1, y: 0, duration: rich ? 0.42 : 0.2, ease: "power2.out",
+          gsap.fromTo(target, { opacity: 0, y: rich ? 38 : 22 }, {
+            opacity: 1, y: 0, duration: rich ? 0.72 : 0.48, ease: "power2.out",
             clearProps: "transform",
           });
+          if (target.matches(".tile, .g-item, #collage figure, #abStrip figure, .svc__img, .post__img")) {
+            const image = target.querySelector("img");
+            if (image) gsap.from(image, {
+              scale: rich ? 1.2 : 1.1, duration: rich ? 1 : 0.65, ease: "power3.out", clearProps: "transform",
+            });
+          }
+          if (rich && target.matches("#heroTitle, .section .h2, .phead .h1")) {
+            gsap.from(splitWords(target), {
+              yPercent: 85, duration: 0.72, stagger: 0.055, ease: "power3.out", clearProps: "transform",
+            });
+          }
           if (rich && target.dataset.reveal === "stagger") {
             gsap.from([...target.children].slice(0, 4), {
               y: 8, duration: 0.3, stagger: 0.04, clearProps: "transform",

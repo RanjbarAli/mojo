@@ -393,7 +393,7 @@
     $(".toast__msg", t).textContent = msg;
     box.appendChild(t);
     while (box.children.length > 3) box.firstElementChild.remove();
-    animate(t, { opacity: [0, 1], y: [24, 0], scale: [0.92, 1] }, { type: "spring", stiffness: 380, damping: 26 });
+    animate(t, { opacity: [0, 1], y: [matchMedia("(min-width: 992px)").matches ? -24 : 24, 0], scale: [0.92, 1] }, { type: "spring", stiffness: 380, damping: 26 });
     animate($(".toast__ico svg", t), { scale: [0, 1.25, 1], rotate: [-90, 0] }, { duration: 0.5, delay: 0.1 });
     const bar = $(".toast__t", t);
     const timer = animate(bar, { scaleX: [1, 0] }, { duration: ms / 1000, ease: "linear" });

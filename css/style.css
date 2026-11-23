@@ -1274,3 +1274,21 @@ main > .demo3:last-child { padding-bottom: 0; }
   main > section:last-child { padding-bottom: clamp(56px, 8vw, 104px); }
   .demo3__in { padding-bottom: clamp(48px, 7vw, 88px); }
 }
+
+/* ---------- Mobile button sizing: one consistent scale ---------- */
+@media (max-width: 575.98px) {
+  .btn { min-height: 46px; padding: 0 18px; font-size: 14.5px; gap: 8px; }
+  .btn--lg { min-height: 48px; padding: 0 20px; font-size: 15px; }
+  .btn--sm { min-height: 42px; padding: 0 14px; font-size: 13.5px; }
+  /* button pairs sit side by side with equal widths instead of stacking full-width */
+  .hero__ctas, .hc__ctas, .flex.wrap.gap-1, .fcta__actions, .wnav { flex-wrap: nowrap; gap: 8px; width: 100%; }
+  .hero__ctas .btn, .hc__ctas .btn, .flex.wrap.gap-1 > .btn, .fcta__actions .btn, .wnav .btn { flex: 1 1 0; min-width: 0; padding: 0 12px; }
+  .btn__label { overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 575.98px) {
+  .hc__ctas .btn--ghost .btn__icon { display: none; }
+  .hc__ctas .btn { font-size: 14px; }
+}
+@media (max-width: 359.98px) { .hc__ctas { flex-wrap: wrap; } .hc__ctas .btn { flex: 1 1 100%; } }
+/* Toasts never cover action buttons: top-centre under the nav on desktop */
+@media (min-width: 992px) { .toasts { bottom: auto; top: calc(var(--nav-h) + var(--safe-t) + 14px); } }

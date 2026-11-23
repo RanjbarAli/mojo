@@ -72,68 +72,24 @@ function mojo_is_image_field( $key ) {
 }
 
 add_action( 'admin_menu', function () {
-	add_theme_page( 'Mojo Content', 'Mojo Content', 'edit_theme_options', 'mojo-content', 'mojo_content_admin' );
+	add_menu_page( 'Mojo Content', 'Mojo Content', 'edit_theme_options', 'mojo-content', 'mojo_content_admin', 'dashicons-edit-page', 26 );
+} );
+// Keep bookmarks from the former Appearance submenu working.
+add_action( 'admin_init', function () {
+	global $pagenow;
+	if ( 'themes.php' !== $pagenow || 'mojo-content' !== ( $_GET['page'] ?? '' ) ) return;
+	$group = sanitize_key( $_GET['group'] ?? 'contact' );
+	wp_safe_redirect( add_query_arg( array( 'page' => 'mojo-content', 'group' => $group ), admin_url( 'admin.php' ) ) );
+	exit;
 } );
 add_action( 'admin_enqueue_scripts', function ( $hook ) {
-	if ( 'appearance_page_mojo-content' !== $hook ) return;
+	if ( 'toplevel_page_mojo-content' !== $hook ) return;
 	wp_enqueue_media();
-	wp_enqueue_script( 'mojo-content-admin', get_theme_file_uri( 'js/content-admin.js' ), array(), '1.1', true );
+	wp_enqueue_style( 'mojo-content-admin', get_theme_file_uri( 'content-admin.css' ), array(), wp_get_theme()->get( 'Version' ) );
+	wp_enqueue_script( 'mojo-content-admin', get_theme_file_uri( 'js/content-admin.js' ), array(), wp_get_theme()->get( 'Version' ), true );
 } );
 
-function mojo_content_inputs( $row, $prefix ) {
-	foreach ( $row as $key => $value ) {
-		$name = $prefix . '[' . $key . ']';
-		$label = ucfirst( str_replace( '_', ' ', preg_replace( '/([a-z])([A-Z])/', '$1 $2', $key ) ) );
-		echo '<p><label><strong>' . esc_html( $label ) . '</strong><br>';
-		if ( in_array( $key, array( 'bookable', 'showInDisciplines', 'cat' ), true ) ) {
-			$choices = 'cat' === $key ? array( 'riding', 'training', 'leisure' ) : array( 'yes', 'no' );
-			echo '<select name="' . esc_attr( $name ) . '">';
-			foreach ( $choices as $choice ) printf( '<option %s>%s</option>', selected( $value, $choice, false ), esc_html( $choice ) );
-			echo '</select>';
-		} elseif ( in_array( $key, array( 'points', 'body', 'text' ), true ) || strlen( $value ) > 90 ) {
-			printf( '<textarea class="large-text" rows="3" name="%s">%s</textarea>', esc_attr( $name ), esc_textarea( $value ) );
-		} else {
-			printf( '<input class="regular-text" name="%s" value="%s">', esc_attr( $name ), esc_attr( $value ) );
-		}
-		echo '</label>';
-		if ( mojo_is_image_field( $key ) ) echo ' <button class="button" type="button" data-media>Media library</button>';
-		echo '</p>';
-	}
-}
-function mojo_content_row( $row, $index ) {
-	echo '<details data-row style="background:white;border:1px solid #ccd0d4;padding:12px;margin-bottom:8px"><summary><strong>' . esc_html( $row['title'] ?? $row['tag'] ?? $row['name'] ?? 'Item' ) . '</strong></summary>';
-	mojo_content_inputs( $row, 'content[' . $index . ']' );
-	echo '<button class="button" type="button" data-up>Move up</button> <button class="button" type="button" data-down>Move down</button> <button class="button-link-delete" type="button" data-remove>Remove item</button></details>';
-}
-function mojo_content_admin() {
-	$groups = mojo_content_groups();
-	$key = sanitize_key( $_GET['group'] ?? 'contact' );
-	if ( ! isset( $groups[ $key ] ) ) $key = 'contact';
-	$value = mojo_content( $key );
-	$schema = mojo_defaults()[ $key ];
-	echo '<div class="wrap"><h1>Mojo Content</h1><nav class="nav-tab-wrapper">';
-	foreach ( $groups as $group => $label ) printf( '<a class="nav-tab %s" href="%s">%s</a>', $key === $group ? 'nav-tab-active' : '', esc_url( add_query_arg( array( 'page' => 'mojo-content', 'group' => $group ), admin_url( 'themes.php' ) ) ), esc_html( $label ) );
-	echo '</nav>';
-	if ( isset( $_GET['saved'] ) ) echo '<div class="notice notice-success"><p>Changes saved.</p></div>';
-	echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="mojo_save_content"><input type="hidden" name="group" value="' . esc_attr( $key ) . '">';
-	wp_nonce_field( 'mojo_content_' . $key );
-	if ( 'programs' === $key ) echo '<p>Add or reorder service cards here. Set Show In Disciplines to Yes to also display a card on the home page.</p>';
-	if ( 'contact' === $key ) echo '<p>Use 24-hour times (HH:MM). List closed weekdays as numbers from 0 (Sunday) to 6 (Saturday), and separate lesson times with commas. Times are local to Oman.</p>';
-	if ( isset( $schema[0] ) ) {
-		echo '<div data-rows>';
-		foreach ( $value as $i => $row ) {
-			if ( 'programs' === $key ) $row += array( 'showInDisciplines' => 'yes' );
-			mojo_content_row( $row, $i );
-		}
-		echo '</div><template id="mojo-row">';
-		mojo_content_row( array_fill_keys( array_keys( $schema[0] ), '' ), 'NEW' );
-		echo '</template><button type="button" class="button" data-add>Add item</button>';
-	} else {
-		mojo_content_inputs( $value, 'content' );
-	}
-	submit_button();
-	echo '</form></div>';
-}
+require_once get_template_directory() . '/content-editor.php';
 
 function mojo_clean_row( $raw, $schema ) {
 	$clean = array();
@@ -179,7 +135,7 @@ add_action( 'admin_post_mojo_save_content', function () {
 		if ( $clean['open'] >= $clean['close'] || ! preg_match( '/^\s*(?:[0-6](?:\s*,\s*[0-6])*)?\s*$/D', $clean['closedDays'] ) ) wp_die( 'Check opening hours and closed weekdays.' );
 	}
 	update_option( 'mojo_content_' . $key, $clean, false );
-	wp_safe_redirect( add_query_arg( array( 'page' => 'mojo-content', 'group' => $key, 'saved' => 1 ), admin_url( 'themes.php' ) ) );
+	wp_safe_redirect( add_query_arg( array( 'page' => 'mojo-content', 'group' => $key, 'saved' => 1 ), admin_url( 'admin.php' ) ) );
 	exit;
 } );
 

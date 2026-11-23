@@ -214,20 +214,28 @@
   }
 
   /* ---------- Smooth scroll ---------- */
-  let lenis = null;
+  let smoother = null;
+  function scrollToTarget(target, offset = 0) {
+    if (smoother) smoother.scrollTo(target, true, `top ${offset}px`);
+    else {
+      const top = typeof target === "number" ? target : target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    }
+  }
   function initScroll() {
     if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
     if (window.gsap && window.Flip) gsap.registerPlugin(Flip);
-    if (!reduced && window.Lenis) {
-      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-      if (window.gsap) {
-        lenis.on("scroll", ScrollTrigger.update);
-        gsap.ticker.add((t) => lenis.raf(t * 1000));
-        gsap.ticker.lagSmoothing(0);
-      } else {
-        const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
-        requestAnimationFrame(raf);
-      }
+    if (!reduced && window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
+      gsap.registerPlugin(ScrollSmoother);
+      const wrapper = document.createElement("div");
+      const content = document.createElement("div");
+      content.className = "scroll-content";
+      const main = $("#main");
+      main.before(wrapper);
+      wrapper.append(content);
+      content.append(main, $(".footer"));
+      document.body.classList.add("has-smoother");
+      smoother = ScrollSmoother.create({ wrapper, content, smooth: 1, smoothTouch: 0.15 });
     }
     // in-page anchors
     document.addEventListener("click", (e) => {
@@ -236,10 +244,10 @@
       const t = $(a.getAttribute("href"));
       if (!t) return;
       e.preventDefault();
-      lenis ? lenis.scrollTo(t, { offset: -80 }) : t.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+      scrollToTarget(t, 80);
     });
   }
-  const lockScroll = (on) => { document.body.classList.toggle("no-scroll", on); lenis && (on ? lenis.stop() : lenis.start()); };
+  const lockScroll = (on) => { document.body.classList.toggle("no-scroll", on); smoother?.paused(on); };
 
   /* ---------- Top nav behaviour ---------- */
   function initTopNav() {
@@ -753,7 +761,7 @@
       });
       if (first) {
         const target = first.closest(".cselect")?.querySelector(".cselect__trigger") || first;
-        lenis ? lenis.scrollTo(target, { offset: -140 }) : target.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
+        scrollToTarget(target, 140);
         setTimeout(() => target.focus({ preventScroll: true }), 300);
       }
       return ok;
@@ -821,7 +829,7 @@
           } else {
             animate(panel, { height: [panel.scrollHeight + "px", 0] }, { duration: 0.35 });
           }
-          lenis && setTimeout(() => ScrollTrigger.refresh(), 450);
+          smoother && setTimeout(() => ScrollTrigger.refresh(), 450);
         });
       });
     });
@@ -955,7 +963,7 @@
     top && top.addEventListener("click", () => {
       const i = $(".totop__ico svg", top);
       animate(i, { y: [0, -14, 14, 0], opacity: [1, 0, 0, 1] }, { duration: 0.6 });
-      lenis ? lenis.scrollTo(0, { duration: 1.6 }) : scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      scrollToTarget(0);
     });
     if (!reduced && window.ScrollTrigger) {
     }
@@ -1017,8 +1025,8 @@
       if (location.hash) y = 0;
       if (window.ScrollTrigger) ScrollTrigger.refresh();
       if (y > 0) {
-        window.scrollTo(0, y);
-        if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+        if (smoother) smoother.scrollTop(y);
+        else window.scrollTo(0, y);
         if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.update());
       }
     };
@@ -1028,7 +1036,7 @@
   window.UI = {
     $, $$, animate, stagger, spring, reduced, svg, ico, renderIcons, toast, modal, btnState, runButton, fakeRequest,
     initForm, resetForm, splitWords, initAccordion, initTabs, initCounters, validateEl, showError, enhanceSelect, enhancePhone, initMasks, initReveal, openProgram, openStatus, omanNow,
-    get lenis() { return lenis; }, lockScroll, flag, moveInd,
+    scrollToTarget, lockScroll, flag, moveInd,
   };
 
   // Page scripts render dynamic markup first (deferred), core enhances on DOMContentLoaded.

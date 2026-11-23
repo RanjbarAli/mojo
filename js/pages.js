@@ -456,7 +456,7 @@
         sel.value = b.dataset.pick; sel.dispatchEvent(new Event("change", { bubbles: true }));
         U.validateEl(sel);
         const form = $("#eventForm");
-        U.lenis ? U.lenis.scrollTo(form, { offset: -100 }) : form.scrollIntoView({ behavior: "smooth", block: "start" });
+        U.scrollToTarget(form, 100);
         U.toast(`${b.closest(".pkg").querySelector("h3").textContent} selected`, "info", 2400);
       }));
       sel.addEventListener("change", () => $$(".pkg").forEach((p) => p.classList.toggle("is-pick", p.dataset.pkg === sel.value)));
@@ -525,7 +525,7 @@
         });
         step = n; paintSteps(); summary();
         const top = $("#wizardTop");
-        U.lenis ? U.lenis.scrollTo(top, { offset: -90 }) : top.scrollIntoView({ behavior: U.reduced ? "auto" : "smooth" });
+        U.scrollToTarget(top, 90);
       };
       const validStep = () => {
         if (step === 1) {
@@ -705,7 +705,7 @@
         drawPager(list.length ? pages : 1);
         if (scroll) {
           const top = $("#blogTabs");
-          U.lenis ? U.lenis.scrollTo(top, { offset: -100, duration: 0.9 }) : top.scrollIntoView({ behavior: U.reduced ? "auto" : "smooth", block: "start" });
+          U.scrollToTarget(top, 100);
         }
       };
       pager.addEventListener("click", (e) => {

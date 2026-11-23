@@ -71,9 +71,24 @@ function mojo_is_image_field( $key ) {
 	return in_array( $key, array( 'img', 'src' ), true ) || str_starts_with( $key, 'image_' );
 }
 
+function mojo_editor_url( $group, $page = 1 ) {
+	return add_query_arg( array( 'page' => 'mojo-content', 'group' => $group, 'items_page' => $page ), admin_url( 'admin.php' ) );
+}
+
+function mojo_editor_submenu( $group ) {
+	return 'admin.php?page=mojo-content&group=' . $group;
+}
+
 add_action( 'admin_menu', function () {
 	add_menu_page( 'Mojo Content', 'Mojo Content', 'edit_theme_options', 'mojo-content', 'mojo_content_admin', 'dashicons-edit-page', 26 );
+	foreach ( mojo_content_groups() as $group => $label ) {
+		add_submenu_page( 'mojo-content', $label, $label, 'edit_theme_options', mojo_editor_submenu( $group ) );
+	}
 } );
+add_filter( 'submenu_file', function ( $submenu, $parent ) {
+	if ( 'mojo-content' !== $parent ) return $submenu;
+	return mojo_editor_submenu( sanitize_key( $_GET['group'] ?? 'contact' ) );
+}, 10, 2 );
 // Keep bookmarks from the former Appearance submenu working.
 add_action( 'admin_init', function () {
 	global $pagenow;
@@ -116,26 +131,65 @@ add_action( 'admin_post_mojo_save_content', function () {
 	$groups = mojo_defaults();
 	if ( ! isset( $groups[ $key ] ) ) wp_die( 'Unknown group.' );
 	check_admin_referer( 'mojo_content_' . $key );
+	if ( empty( $_POST['mojo_complete'] ) ) wp_die( 'The form was incomplete. Return to the editor and try again.' );
 	$rows = wp_unslash( $_POST['content'] ?? array() );
+	$page = 1;
 	if ( ! is_array( $rows ) ) wp_die( 'Invalid content.' );
 	if ( isset( $groups[ $key ][0] ) ) {
-		$clean = array();
+		$current = array_values( mojo_content( $key ) );
+		$page = max( 1, absint( $_POST['items_page'] ?? 1 ) );
+		$offset = ( $page - 1 ) * MOJO_EDITOR_PAGE_SIZE;
+		$revision = sanitize_text_field( wp_unslash( $_POST['collection_revision'] ?? '' ) );
+		if ( $revision !== mojo_editor_revision( $current ) ) wp_die( 'This collection changed after you opened it. Reload the editor before saving.', '', array( 'response' => 409, 'back_link' => true ) );
+		$replacement = array();
+		$ids = array_fill_keys( array_column( $current, 'id' ), true );
 		foreach ( $rows as $row ) {
 			if ( ! is_array( $row ) ) continue;
 			$item = mojo_clean_row( $row, $groups[ $key ][0] );
-			if ( in_array( $key, array( 'programs', 'packages' ), true ) && ( ! $item['title'] || ! $item['id'] || in_array( $item['id'], array_column( $clean, 'id' ), true ) ) ) wp_die( 'Each item needs a title and a unique ID.' );
-			$clean[] = $item;
+			if ( isset( $item['id'] ) && '' === $item['id'] ) {
+				$slug = sanitize_title( $item['title'] ) ?: 'item';
+				$item['id'] = $slug;
+				for ( $suffix = 2; isset( $ids[ $item['id'] ] ); ++$suffix ) $item['id'] = $slug . '-' . $suffix;
+				$ids[ $item['id'] ] = true;
+			}
+			$replacement[] = $item;
 		}
+		$clean = $current;
+		array_splice( $clean, $offset, MOJO_EDITOR_PAGE_SIZE, $replacement );
+		if ( in_array( $key, array( 'programs', 'packages' ), true ) && ( in_array( '', array_column( $clean, 'title' ), true ) || count( $clean ) !== count( array_unique( array_column( $clean, 'id' ) ) ) ) ) {
+			wp_die( 'Each item needs a title and a unique ID.', '', array( 'back_link' => true ) );
+		}
+		$move = $_POST['move_page'] ?? '';
+		if ( 'previous' === $move && $offset && $replacement ) {
+			$item = $clean[ $offset ];
+			$clean[ $offset ] = $clean[ $offset - 1 ];
+			$clean[ $offset - 1 ] = $item;
+			--$page;
+		}
+		if ( 'next' === $move && $replacement && isset( $clean[ $offset + count( $replacement ) ] ) ) {
+			$last = $offset + count( $replacement ) - 1;
+			$item = $clean[ $last ];
+			$clean[ $last ] = $clean[ $last + 1 ];
+			$clean[ $last + 1 ] = $item;
+			++$page;
+		}
+		$page = min( $page, max( 1, (int) ceil( count( $clean ) / MOJO_EDITOR_PAGE_SIZE ) ) );
 	} else {
+		if ( 'contact' === $key ) {
+			foreach ( array( 'closedDays', 'slots' ) as $field ) {
+				$values = $rows[ $field ] ?? array();
+				$rows[ $field ] = is_array( $values ) ? implode( ',', array_unique( array_filter( $values, 'is_string' ) ) ) : '';
+			}
+		}
 		$clean = mojo_clean_row( $rows, $groups[ $key ] );
 	}
 	if ( 'contact' === $key ) {
-		$times = array_merge( array( $clean['open'], $clean['close'] ), array_map( 'trim', explode( ',', $clean['slots'] ) ) );
+		$times = array_merge( array( $clean['open'], $clean['close'] ), array_filter( array_map( 'trim', explode( ',', $clean['slots'] ) ) ) );
 		foreach ( $times as $time ) if ( ! preg_match( '/^(?:[01]\d|2[0-3]):[0-5]\d$/D', $time ) ) wp_die( 'Use HH:MM for hours and lesson times.' );
 		if ( $clean['open'] >= $clean['close'] || ! preg_match( '/^\s*(?:[0-6](?:\s*,\s*[0-6])*)?\s*$/D', $clean['closedDays'] ) ) wp_die( 'Check opening hours and closed weekdays.' );
 	}
 	update_option( 'mojo_content_' . $key, $clean, false );
-	wp_safe_redirect( add_query_arg( array( 'page' => 'mojo-content', 'group' => $key, 'saved' => 1 ), admin_url( 'admin.php' ) ) );
+	wp_safe_redirect( add_query_arg( 'saved', '1', mojo_editor_url( $key, $page ) ) );
 	exit;
 } );
 

@@ -23,16 +23,13 @@
   if (reduced) html.classList.add("reduce-motion");
 
   // Use device hints for the first viewport, then sample short bursts of visible scrolling.
-  const cores = navigator.hardwareConcurrency || 0;
-  const memory = navigator.deviceMemory || 0;
-  const limitedHardware = (cores && cores <= 4) || (memory && memory <= 4);
-  let motionLevel = reduced ? 0 : !limitedHardware && cores >= 6 ? 2 : 1;
-  if (mobile && !reduced) {
+  let motionLevel = reduced ? 0 : 2;
+  if (mobile && !prefersReduced && !conn.saveData) {
     let nextSample = 0, goodSamples = 0;
     addEventListener("scroll", () => {
       const now = performance.now();
       if (document.hidden || now < nextSample) return;
-      nextSample = now + 2500;
+      nextSample = now + 1600;
       let first = 0, previous = 0, frames = 0, slow = 0;
       function sample(time) {
         if (document.hidden) return;
@@ -48,8 +45,8 @@
           motionLevel = Math.max(0, motionLevel - 1);
           goodSamples = 0;
         } else if (slow / frames < 0.08) {
-          if (++goodSamples >= 3) {
-            motionLevel = Math.min(limitedHardware ? 1 : 2, motionLevel + 1);
+          if (++goodSamples >= 2) {
+            motionLevel = Math.min(2, motionLevel + 1);
             goodSamples = 0;
           }
         } else goodSamples = 0;
@@ -951,12 +948,28 @@
       let parallax;
       function updateParallax() {
         if (parallax) { parallax.revert(); parallax = null; }
-        if (motionLevel !== 2 || !window.ScrollTrigger) return;
+        if (!motionLevel || !window.ScrollTrigger) return;
         parallax = gsap.context(() => {
-          $$("#hcMedia img, .phead__img img, .coach__img img", root).forEach((img) => {
-            gsap.fromTo(img, { scale: 1.14, yPercent: -3 }, {
-              scale: 1.09, yPercent: 3, ease: "none",
+          const rich = motionLevel === 2;
+          $$("#hcMedia img, .phead__img img, .coach__img img, .demo3__img img, .ab-team__img img", root).forEach((img) => {
+            gsap.fromTo(img, { scale: rich ? 1.28 : 1.14, yPercent: rich ? -7 : -3 }, {
+              scale: rich ? 1.17 : 1.09, yPercent: rich ? 7 : 3, ease: "none",
               scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true },
+            });
+          });
+          if (!rich) return;
+          $$("#gallery .gallery__col", root).forEach((col, index) => {
+            if (!col.clientHeight) return;
+            const travel = () => Math.min(100, Math.max(0, col.scrollHeight - col.parentElement.clientHeight));
+            gsap.fromTo(col, { y: () => index % 2 ? -travel() : 0 }, {
+              y: () => index % 2 ? 0 : -travel(), ease: "none",
+              scrollTrigger: { trigger: col.parentElement, start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true },
+            });
+          });
+          $$("#bento .tile__body", root).forEach((body) => {
+            gsap.fromTo(body, { y: -18 }, {
+              y: 0, ease: "none",
+              scrollTrigger: { trigger: body.closest(".tile"), start: "top bottom", end: "center center", scrub: true },
             });
           });
         });
@@ -973,19 +986,19 @@
             continue;
           }
           const rich = motionLevel === 2;
-          gsap.fromTo(target, { opacity: 0, y: rich ? 38 : 22 }, {
-            opacity: 1, y: 0, duration: rich ? 0.72 : 0.48, ease: "power2.out",
+          gsap.fromTo(target, { opacity: 0, y: rich ? 52 : 28 }, {
+            opacity: 1, y: 0, duration: rich ? 0.85 : 0.55, ease: "power2.out",
             clearProps: "transform",
           });
           if (target.matches(".tile, .g-item, #collage figure, #abStrip figure, .svc__img, .post__img")) {
             const image = target.querySelector("img");
             if (image) gsap.from(image, {
-              scale: rich ? 1.2 : 1.1, duration: rich ? 1 : 0.65, ease: "power3.out", clearProps: "transform",
+              scale: rich ? 1.3 : 1.16, duration: rich ? 1 : 0.65, ease: "power3.out", clearProps: "transform",
             });
           }
-          if (rich && target.matches("#heroTitle, .section .h2, .phead .h1")) {
+          if (target.matches("#heroTitle, .section .h2, .phead .h1")) {
             gsap.from(splitWords(target), {
-              yPercent: 85, duration: 0.72, stagger: 0.055, ease: "power3.out", clearProps: "transform",
+              yPercent: rich ? 105 : 70, duration: rich ? 0.85 : 0.55, stagger: rich ? 0.075 : 0.035, ease: "power3.out", clearProps: "transform",
             });
           }
           if (rich && target.dataset.reveal === "stagger") {

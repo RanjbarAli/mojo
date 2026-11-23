@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Programs — Mojo Equestrian Center</title>
+  <meta name="description" content="Riding school, show jumping, dressage, theory classes, young horse training, leasing, events and café.">
+  <meta name="theme-color" content="#0B2540">
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="services">
+<main id="main">
+  <section class="phead">
+    <div class="phead__img"><img src="assets/img/masters-2.webp" alt=""></div>
+    <div class="container phead__in">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i data-lucide="chevron-right"></i><span>Programs</span></nav>
+      <h1 class="h1">Programs</h1>
+      <p class="lead">For riders who want to refine their skills — and horses that deserve the best start.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="blog-tools">
+        <div class="tabs" data-tabs id="svcTabs" role="tablist">
+          <span class="tabs__ind" aria-hidden="true"></span>
+          <button class="tab" role="tab" data-value="all" aria-selected="true"><i data-lucide="layout-grid"></i>All <span class="count" data-c="all"></span></button>
+          <button class="tab" role="tab" data-value="riding" aria-selected="false"><i data-lucide="graduation-cap"></i>Riding <span class="count" data-c="riding"></span></button>
+          <button class="tab" role="tab" data-value="training" aria-selected="false"><i data-lucide="trophy"></i>Training <span class="count" data-c="training"></span></button>
+          <button class="tab" role="tab" data-value="leisure" aria-selected="false"><i data-lucide="coffee"></i>Leisure <span class="count" data-c="leisure"></span></button>
+        </div>
+        <div class="search">
+          <div class="control"><i data-lucide="search" class="lead-ico"></i><input class="input" id="svcSearch" type="search" placeholder="Search programs" aria-label="Search programs"></div>
+        </div>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
+      <div class="empty" id="svcEmpty">
+        <span class="ico"><i data-lucide="search"></i></span>
+        <b>No programs match your search</b>
+        <button class="btn btn--sm btn--ghost" id="svcReset"><span class="btn__icon"><i data-lucide="rotate-ccw"></i></span><span class="btn__label">Clear filters</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sky">
+    <div class="container">
+      <div class="head"><span class="eyebrow">How it works</span><h2 class="h2">Three easy steps</h2></div>
+      <div class="feats" data-reveal="stagger" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+        <div class="feat"><span class="ico"><i data-lucide="mouse-pointer-click"></i></span><h3 class="h3">1 · Choose</h3><p>Pick a program — or ask us which fits your level.</p></div>
+        <div class="feat"><span class="ico"><i data-lucide="calendar-check"></i></span><h3 class="h3">2 · Book</h3><p>Select a date and time that suits you, Saturday to Thursday.</p></div>
+        <div class="feat"><span class="ico"><i data-lucide="trophy"></i></span><h3 class="h3">3 · Ride</h3><p>Meet your coach and horse — helmets and gear provided.</p></div>
+      </div>
+      <div class="flex wrap gap-1 mt-4">
+        <a class="btn btn--lg" href="booking.html"><span class="btn__icon"><i data-lucide="calendar-check"></i></span><span class="btn__label">Book a lesson</span></a>
+        <a class="btn btn--lg btn--ghost" href="contact.html"><span class="btn__icon"><i data-lucide="message-circle"></i></span><span class="btn__label">Ask a coach</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script defer src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/pages.js"></script>
+</body>
+</html>

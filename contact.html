@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact — Mojo Equestrian Center</title>
+  <meta name="description" content="Contact Mojo Equestrian Center in Rumays, Barka, Oman. Call, WhatsApp or send a message.">
+  <meta name="theme-color" content="#0B2540">
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="contact">
+<main id="main">
+  <section class="phead">
+    <div class="phead__img"><img src="assets/img/cafe.webp" alt=""></div>
+    <div class="container phead__in">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i data-lucide="chevron-right"></i><span>Contact</span></nav>
+      <h1 class="h1">Get in touch</h1>
+      <p class="lead">Lessons, leasing, events or just a coffee — reach out any way you like.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="cinfo" data-reveal="stagger">
+        <div class="cinfo__item"><span class="ico ico--o"><i data-lucide="phone"></i></span><div><small>Call us</small><b><a href="tel:+96897760221">+968 9776 0221</a></b></div>
+          <button class="icon-btn" data-copy="+968 9776 0221" aria-label="Copy phone number"><span class="copy-ico"><i data-lucide="copy"></i></span></button></div>
+        <div class="cinfo__item"><span class="ico" style="background:#E3F7EC;color:#1FAF5A"><i data-lucide="message-circle"></i></span><div><small>WhatsApp</small><b>Chat with Mohammed</b></div>
+          <a class="icon-btn" href="https://wa.me/96897760221" target="_blank" rel="noopener" aria-label="Open WhatsApp"><i data-lucide="arrow-up-right"></i></a></div>
+        <div class="cinfo__item"><span class="ico"><i data-lucide="mail"></i></span><div><small>Email</small><b><a href="mailto:info@mojoequestrian.com">info@mojoequestrian.com</a></b></div>
+          <button class="icon-btn" data-copy="info@mojoequestrian.com" aria-label="Copy email"><span class="copy-ico"><i data-lucide="copy"></i></span></button></div>
+        <div class="cinfo__item"><span class="ico"><i data-lucide="map-pin"></i></span><div><small>Visit</small><b>Rumays, Barka, Oman</b></div>
+          <a class="icon-btn" href="https://maps.google.com/?q=Mojo+Equestrian+Barka+Oman" target="_blank" rel="noopener" aria-label="Get directions"><i data-lucide="navigation"></i></a></div>
+        <div class="panel panel--line" style="padding:18px 20px">
+          <div class="flex between center" style="margin-bottom:4px"><h3 class="h3">Opening hours</h3><span class="chip"><span class="live-dot" id="cDot"></span><span id="cStatus"></span></span></div>
+          <div class="hours" id="hours"></div>
+        </div>
+      </div>
+
+      <form class="panel panel--line form" id="contactForm" novalidate>
+        <h2 class="h2" style="font-size:1.35rem">Send a message</h2>
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label class="label" for="cName">Full name</label>
+            <div class="control"><i data-lucide="user" class="lead-ico"></i><input class="input" id="cName" name="name" autocomplete="name" placeholder="Your name" data-rules="required|min:3" data-letters><span class="state-ico"></span></div>
+          </div>
+          <div class="field">
+            <label class="label" for="cEmail">Email</label>
+            <div class="control"><i data-lucide="mail" class="lead-ico"></i><input class="input" id="cEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" data-rules="required|email"><span class="state-ico"></span></div>
+          </div>
+        </div>
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label class="label" for="cPhone">Phone <span class="opt">Optional</span></label>
+            <div class="control phone" data-phone data-default="OM"><input class="input" id="cPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" data-rules="phone"><span class="state-ico"></span></div>
+          </div>
+          <div class="field">
+            <label class="label" id="cTopic-lbl">Topic</label>
+            <select id="cTopic" name="topic" data-cselect data-placeholder="What's it about?" data-icon="message-circle" data-rules="select">
+              <option value=""></option>
+              <option value="lessons" data-icon="graduation-cap">Lessons</option>
+              <option value="jumping" data-icon="trophy">Show jumping training</option>
+              <option value="leasing" data-icon="key-round">Horse leasing</option>
+              <option value="young" data-icon="sprout">Young horse training</option>
+              <option value="events" data-icon="party-popper">Events & parties</option>
+              <option value="cafe" data-icon="coffee">Restaurant & café</option>
+              <option value="other" data-icon="sparkles">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="cMsg">Message <span class="counter"></span></label>
+          <div class="control control--area"><textarea class="input" id="cMsg" name="message" maxlength="600" placeholder="How can we help?" data-rules="required|min:10"></textarea><span class="state-ico"></span></div>
+        </div>
+        <label class="check"><input type="checkbox" name="copy"><span class="check__box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><span>Send me a copy of this message</span></label>
+        <button class="btn btn--lg" type="submit" data-loading="Sending" data-success="Sent"><span class="btn__icon"><i data-lucide="send"></i></span><span class="btn__label">Send message</span></button>
+      </form>
+    </div>
+    <div class="container mt-4">
+      <div class="map"><iframe title="Map to Mojo Equestrian Center" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Mojo%20Equestrian%20Center%20Barka%20Oman&output=embed"></iframe></div>
+    </div>
+  </section>
+</main>
+
+<script defer src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/pages.js"></script>
+</body>
+</html>

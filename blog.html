@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Journal — Mojo Equestrian Center</title>
+  <meta name="description" content="Riding tips, horse care and event news from Mojo Equestrian Center.">
+  <meta name="theme-color" content="#0B2540">
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="blog">
+<main id="main">
+  <section class="phead">
+    <div class="phead__img"><img src="assets/img/night-ride.webp" alt=""></div>
+    <div class="container phead__in">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i data-lucide="chevron-right"></i><span>Journal</span></nav>
+      <h1 class="h1">The Mojo journal</h1>
+      <p class="lead">Riding tips, horse care and news from the arena.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="blog-tools">
+        <div class="tabs" data-tabs id="blogTabs" role="tablist">
+          <span class="tabs__ind" aria-hidden="true"></span>
+          <button class="tab" role="tab" data-value="all" aria-selected="true">All</button>
+          <button class="tab" role="tab" data-value="Riding tips" aria-selected="false"><i data-lucide="graduation-cap"></i>Riding tips</button>
+          <button class="tab" role="tab" data-value="Show jumping" aria-selected="false"><i data-lucide="trophy"></i>Show jumping</button>
+          <button class="tab" role="tab" data-value="Horse care" aria-selected="false"><i data-lucide="heart-handshake"></i>Horse care</button>
+          <button class="tab" role="tab" data-value="Events" aria-selected="false"><i data-lucide="party-popper"></i>Events</button>
+        </div>
+        <div class="search">
+          <div class="control"><i data-lucide="search" class="lead-ico"></i><input class="input" id="postSearch" type="search" placeholder="Search articles" aria-label="Search articles"></div>
+        </div>
+      </div>
+      <div class="posts" id="posts"></div>
+      <nav class="pager" id="pager" aria-label="Pagination"></nav>
+      <div class="empty" id="postEmpty">
+        <span class="ico"><i data-lucide="newspaper"></i></span>
+        <b>No articles found</b>
+        <button class="btn btn--sm btn--ghost" id="postReset"><span class="btn__icon"><i data-lucide="rotate-ccw"></i></span><span class="btn__label">Clear filters</span></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script defer src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/pages.js"></script>
+</body>
+</html>

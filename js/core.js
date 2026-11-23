@@ -22,6 +22,41 @@
   const reduced = prefersReduced || lowEnd;
   if (reduced) html.classList.add("reduce-motion");
 
+  // Use device hints for the first viewport, then sample short bursts of visible scrolling.
+  const cores = navigator.hardwareConcurrency || 0;
+  const memory = navigator.deviceMemory || 0;
+  const limitedHardware = (cores && cores <= 4) || (memory && memory <= 4);
+  let motionLevel = reduced ? 0 : !limitedHardware && cores >= 6 ? 2 : 1;
+  if (mobile && !reduced) {
+    let nextSample = 0, goodSamples = 0;
+    addEventListener("scroll", () => {
+      const now = performance.now();
+      if (document.hidden || now < nextSample) return;
+      nextSample = now + 2500;
+      let first = 0, previous = 0, frames = 0, slow = 0;
+      function sample(time) {
+        if (document.hidden) return;
+        if (!first) first = time;
+        if (previous) {
+          frames++;
+          if (time - previous > 25) slow++;
+        }
+        previous = time;
+        if (time - first < 450) { requestAnimationFrame(sample); return; }
+        if (slow / frames > 0.25) {
+          motionLevel = Math.max(0, motionLevel - 1);
+          goodSamples = 0;
+        } else if (slow / frames < 0.08) {
+          if (++goodSamples >= 3) {
+            motionLevel = Math.min(limitedHardware ? 1 : 2, motionLevel + 1);
+            goodSamples = 0;
+          }
+        } else goodSamples = 0;
+      }
+      requestAnimationFrame(sample);
+    }, { passive: true });
+  }
+
   /* ---------- GSAP animation adapter ----------
      animate(target, { prop: [from, to] | [k1, k2, k3…] | to }, { duration, delay, ease, type })
      – 2-value arrays → fromTo · longer arrays → GSAP array keyframes · scalars → to
@@ -898,16 +933,44 @@
 
   /* ---------- Reveal on view ---------- */
   function initReveal(root = document) {
+    if (mobile) {
+      const targets = $$("[data-reveal], #heroTitle, #bento > .tile, .section .h2, .phead .h1", root)
+        .filter((el) => el.hasAttribute("data-reveal") || !el.parentElement.closest("[data-reveal]"));
+      if (reduced || !window.gsap || !window.IntersectionObserver) {
+        targets.forEach((el) => { el.style.opacity = 1; });
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        for (const { target, isIntersecting } of entries) {
+          if (!isIntersecting) continue;
+          observer.unobserve(target);
+          target.style.opacity = 1;
+          if (!motionLevel) continue;
+          const rich = motionLevel === 2;
+          gsap.fromTo(target, { opacity: 0, y: rich ? 16 : 5 }, {
+            opacity: 1, y: 0, duration: rich ? 0.42 : 0.2, ease: "power2.out",
+            clearProps: "transform",
+          });
+          if (rich && target.dataset.reveal === "stagger") {
+            gsap.from([...target.children].slice(0, 4), {
+              y: 8, duration: 0.3, stagger: 0.04, clearProps: "transform",
+            });
+          }
+        }
+      });
+      targets.forEach((el) => observer.observe(el));
+      return;
+    }
     const els = $$("[data-reveal]", root);
     if (reduced || !window.ScrollTrigger) { els.forEach((e) => (e.style.opacity = 1)); return; }
     els.forEach((el) => {
-      const kids = !mobile && el.dataset.reveal === "stagger" ? [...el.children] : null;
+      const kids = el.dataset.reveal === "stagger" ? [...el.children] : null;
       if (kids) { el.style.opacity = 1; gsap.set(kids, { opacity: 0, y: 28 }); }
       ScrollTrigger.create({
         trigger: el, start: "top 86%", once: true,
         onEnter: () => kids
           ? gsap.to(kids, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.08 })
-          : gsap.fromTo(el, { opacity: 0, y: mobile ? 6 : 28 }, { opacity: 1, y: 0, duration: mobile ? 0.25 : 1, ease: "expo.out", delay: +(el.dataset.delay || 0) }),
+          : gsap.fromTo(el, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1, ease: "expo.out", delay: +(el.dataset.delay || 0) }),
       });
     });
   }

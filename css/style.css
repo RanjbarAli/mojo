@@ -1253,10 +1253,15 @@ main > .demo3:last-child { padding-bottom: 0; }
 }
 .credit { display: inline-flex; align-items: center; gap: 8px; color: var(--on-dark-muted); font-size: 13px; transition: color var(--t) var(--ease); }
 .credit b { color: #fff; font-weight: 700; }
-.credit:hover { color: #fff; }
 .credit__ico { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .08); color: #fff; transition: background-color var(--t) var(--ease); }
 .credit__ico svg { width: 15px; height: 15px; }
-.credit:hover .credit__ico { background: var(--orange); }
+@media (min-width: 992px) and (hover: hover) and (pointer: fine) {
+  .credit:hover { color: #fff; }
+  .credit:hover .credit__ico { background: var(--orange); }
+}
+@media (max-width: 991.98px), (pointer: coarse) {
+  .credit__ico { display: none; }
+}
 
 /* ---------- Footer on small screens (bottom nav visible): credit line only ---------- */
 @media (max-width: 991.98px) {
@@ -1266,7 +1271,6 @@ main > .demo3:last-child { padding-bottom: 0; }
   .footer__bottom { margin-top: 0; padding-block: 20px 24px; justify-content: center; }
   .credit { color: var(--muted); }
   .credit b { color: var(--ink); }
-  .credit__ico { background: var(--bg-2); color: var(--ink); }
   main > section:last-child { padding-bottom: clamp(56px, 8vw, 104px); }
   .demo3__in { padding-bottom: clamp(48px, 7vw, 88px); }
 }
